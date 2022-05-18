@@ -28,6 +28,29 @@
   color: #61dafb;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  color: var(--white-color);
+}
+
+li,
+p {
+  color: var(--white-color);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1000px) {
+  .row {
+    flex-direction: column;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
