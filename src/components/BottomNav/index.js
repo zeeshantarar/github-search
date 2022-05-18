@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import styles from "./index.module.css";
-import DropDown from "../DropDown";
 import { memo } from "react";
 import clsx from "clsx";
 

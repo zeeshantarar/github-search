@@ -9,6 +9,7 @@ import { SearchContext } from "../../contexts/SearchContext";
 import searchActions from "../../actions/searchActions";
 import { useSearchParams } from "react-router-dom";
 import UsersListItem from "../UsersListItem";
+import Pagination from "../Pagination";
 
 const Search = () => {
   const containerClassName = clsx([styles.container]);
@@ -33,7 +34,6 @@ const Search = () => {
     if (query) {
       setQueryParams({ q: query });
       searchApi.getAll(query, page).then((res) => {
-        // console.log(JSON.stringify(res, null, 2));
         setTotal(res.total_count);
         setPage((prevPage) => prevPage + 1);
         dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
@@ -82,6 +82,11 @@ const Search = () => {
         ))}
         <p>total: {total}</p>
         <p>page: {page}</p>
+        <Pagination
+          total={Math.ceil(total / 10)}
+          page={page - 1}
+          onClick={handleSearchSubmit}
+        />
       </div>
     );
   };

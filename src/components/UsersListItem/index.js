@@ -10,7 +10,6 @@ const UsersListItem = memo(({ name }) => {
 
   useEffect(() => {
     usersApi.get(name).then((res) => {
-      console.log(JSON.stringify({ res }, null, 2));
       setUserInfo(res);
     });
   }, [name]);
