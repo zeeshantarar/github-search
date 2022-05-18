@@ -12,6 +12,16 @@ export default function reducer(state, action) {
         ...state,
         results: action.payload,
       };
+    case searchActions.UPDATE_PAGE:
+      return {
+        ...state,
+        page: action.payload,
+      };
+    case searchActions.UPDATE_TOTAL:
+      return {
+        ...state,
+        total: action.payload,
+      };
     default:
       throw new Error();
   }

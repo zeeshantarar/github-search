@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import * as searchApi from "../../api/search";
 import { SearchContext } from "../../contexts/SearchContext";
 import searchActions from "../../actions/searchActions";
@@ -14,15 +14,13 @@ import Pagination from "../Pagination";
 const Search = () => {
   const containerClassName = clsx([styles.container]);
   const [search, dispatch] = useContext(SearchContext);
-  const [, setQueryParams] = useSearchParams();
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState();
+  const [queryParams, setQueryParams] = useSearchParams();
 
   useEffect(() => {
     setQueryParams();
   }, []);
 
-  const { query, results } = search;
+  const { query, results, page, total } = search;
 
   const handleInputChange = ({ target: { value } }) => {
     dispatch({ type: searchActions.UPDATE_QUERY, payload: value });
@@ -32,14 +30,24 @@ const Search = () => {
     event.preventDefault();
 
     if (query) {
-      setQueryParams({ q: query });
+      setQueryParams({ q: query, per_page: 10, page: page });
       searchApi.getAll(query, page).then((res) => {
-        setTotal(res.total_count);
-        setPage((prevPage) => prevPage + 1);
+        dispatch({
+          type: searchActions.UPDATE_TOTAL,
+          payload: res.total_count,
+        });
         dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
       });
     }
   };
+
+  useEffect(() => {
+    setQueryParams({ ...queryParams, page: page });
+
+    searchApi.getAll(query, page).then((res) => {
+      dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
+    });
+  }, [page]);
 
   const renderTitle = () =>
     query && results ? null : (
@@ -73,30 +81,45 @@ const Search = () => {
       </p>
     );
 
-  const renderUsersList = () => {
+  const renderSubHeader = () =>
+    total ? (
+      <div className={styles.subHeaderContainer}>
+        <h1>{total} users</h1>
+      </div>
+    ) : null;
+
+  const renderUsersList = useMemo(() => {
     if (!results?.items?.length) return;
     return (
       <div>
         {results?.items?.map(({ login }) => (
           <UsersListItem name={login} key={login} />
         ))}
-        <p>total: {total}</p>
-        <p>page: {page}</p>
-        <Pagination
-          total={Math.ceil(total / 10)}
-          page={page - 1}
-          onClick={handleSearchSubmit}
-        />
       </div>
     );
-  };
+  }, [results]);
+
+  const renderPagination = useMemo(
+    () => (
+      <Pagination
+        total={Math.min(100, Math.ceil(total / 10))}
+        page={page}
+        onClick={(p) =>
+          dispatch({ type: searchActions.UPDATE_PAGE, payload: p })
+        }
+      />
+    ),
+    [total, page]
+  );
 
   return (
     <div className={containerClassName}>
       {renderTitle()}
       {renderSearchBar()}
       {renderProTip()}
-      {renderUsersList()}
+      {renderSubHeader()}
+      {renderUsersList}
+      {renderPagination}
     </div>
   );
 };

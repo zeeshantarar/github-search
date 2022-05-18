@@ -1,7 +1,7 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import reducer from "../reducers/searchReducer";
 
-const initialState = { query: "", results: null };
+const initialState = { query: "", results: null, page: 1, total: 0 };
 
 export const SearchContext = createContext();
 

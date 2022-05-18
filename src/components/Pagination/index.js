@@ -5,12 +5,33 @@ import Button from "../Button";
 import styles from "./index.module.css";
 
 const Pagination = memo(({ total, page, onClick }) => {
+  if (!total) return;
+
+  const btnClass = (x) =>
+    clsx([
+      styles.btn,
+      "mx5",
+      {
+        [styles.bgBlue]: x + 1 === page,
+      },
+    ]);
+
   const renderPrevBtn = () => (
-    <Button className="mx5" text="Previous" onClick={() => null} />
+    <Button
+      className={btnClass()}
+      disabled={page === 1}
+      text="Previous"
+      onClick={() => onClick(page - 1)}
+    />
   );
 
   const renderBtn = (x) => (
-    <Button key={x} className="mx5" text={`${x + 1}`} onClick={onClick} />
+    <Button
+      key={x}
+      className={btnClass(x)}
+      text={`${x + 1}`}
+      onClick={() => onClick(x + 1)}
+    />
   );
 
   const renderBtns = () => {
@@ -23,13 +44,12 @@ const Pagination = memo(({ total, page, onClick }) => {
     const midFive =
       page >= 5
         ? [
-            ...numbers.slice(page - 2, page),
-            numbers[page],
-            ...numbers.slice(page + 1, page + 3),
+            ...numbers.slice(page - 3, page + 1),
+            ...numbers.slice(page + 1, page + 2),
           ]
         : [];
 
-    const lastTwo = numbers.slice(total - 2, total);
+    const lastTwo = page < total - 2 ? numbers.slice(total - 2, total) : [];
 
     return (
       <>
@@ -39,14 +59,19 @@ const Pagination = memo(({ total, page, onClick }) => {
 
         {page < 5 ? <p>...</p> : null}
         {midFive.map((x) => renderBtn(x))}
-        <p>...</p>
+        {page < total - 2 ? <p>....</p> : null}
         {lastTwo.map((x) => renderBtn(x))}
       </>
     );
   };
 
   const renderNextBtn = () => (
-    <Button className="mx5" text="Next" onClick={() => null} />
+    <Button
+      disabled={page === total}
+      className={btnClass()}
+      text="Next"
+      onClick={() => onClick(page + 1)}
+    />
   );
 
   return (

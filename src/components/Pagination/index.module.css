@@ -1,4 +1,13 @@
 .container {
   padding: 10px;
-  margin: 10px 400px 100px 400px;
+  margin: 10px 0px 100px 280px;
+}
+
+.btn {
+  border: none;
+  background-color: transparent;
+}
+
+.bgBlue {
+  background-color: var(--color-accent-emphasis);
 }

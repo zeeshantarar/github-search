@@ -14,6 +14,8 @@ const UsersListItem = memo(({ name }) => {
     });
   }, [name]);
 
+  if (!userInfo?.name) return;
+
   const renderProfilePic = () => (
     <img className={styles.profilePic} src={userInfo?.avatar_url} />
   );

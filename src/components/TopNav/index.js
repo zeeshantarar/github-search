@@ -7,6 +7,8 @@ import clsx from "clsx";
 import { memo, useContext, useMemo } from "react";
 import { SearchContext } from "../../contexts/SearchContext";
 import searchActions from "../../actions/searchActions";
+import { useSearchParams } from "react-router-dom";
+import * as searchApi from "../../api/search";
 
 const leftNavItems = [
   {
@@ -33,7 +35,9 @@ const TopNav = memo(() => {
   const navItemClass = styles.navItem;
 
   const [search, dispatch] = useContext(SearchContext);
-  const { query, results } = search;
+  const { query, results, page, total } = search;
+
+  const [queryParams, setQueryParams] = useSearchParams();
 
   const renderIcon = () => (
     <FontAwesomeIcon icon={faGithub} className={styles.icon} />
@@ -60,17 +64,31 @@ const TopNav = memo(() => {
   const handleInputChange = (event) =>
     dispatch({ type: searchActions.UPDATE_QUERY, payload: event.target.value });
 
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+
+    if (query) {
+      setQueryParams({ q: query, per_page: 10, page: page });
+      searchApi.getAll(query, page).then((res) => {
+        dispatch({
+          type: searchActions.UPDATE_TOTAL,
+          payload: res.total_count,
+        });
+        dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
+      });
+    }
+  };
+
   const renderSearchBar = () =>
     query && results ? (
-      <div className={styles.inputContainer}>
+      <form className={styles.inputContainer} onSubmit={handleSearchSubmit}>
         <input
           className={styles.input}
           value={query}
           onChange={handleInputChange}
         />
         <FontAwesomeIcon icon={faPenToSquare} className={styles.inputIcon} />
-        {/* <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> */}
-      </div>
+      </form>
     ) : null;
 
   const renderRightNavItems = () => (
