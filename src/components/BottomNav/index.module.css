@@ -12,10 +12,8 @@
 }
 
 .navItemsContainer {
-  justify-content: center;
   flex-wrap: 1;
   padding-top: 3rem;
-  margin: 0 180px;
   border-top: 1px solid var(--gray-color);
 }
 

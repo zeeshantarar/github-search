@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 15px;
+  margin-left: 200px;
+}
+
+.profilePic {
+  border-radius: 100%;
+  height: 32px;
+  width: 32px;
+  align-self: flex-start;
+  margin-right: 20px;
+}
+
+.githubLink {
+  text-decoration: none;
+}
+
+.name {
+  color: var(--color-fg-muted);
+}
+
+.btnContainer {
+  margin-left: auto;
+}
+
+.bioContainer {
+  flex: 1;
+  flex-wrap: 1;
+  margin: 10px 0 5px 0;
+}

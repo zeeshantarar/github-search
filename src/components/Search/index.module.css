@@ -1,8 +1,38 @@
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 26px;
   padding: 10px;
-  background-color: black;
+  margin: 120px 320px 100px 320px;
+}
+
+.icon {
+  color: var(--text-gray);
+  font-size: 32px;
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 32px;
+  color: var(--text-gray);
+}
+
+.input {
+  flex-grow: 1;
+  font-size: 22px;
+  padding: 10px 15px;
+  margin: 0 10px 0 0;
+  border-radius: 10px;
+  border: 1.5px solid var(--gray-color);
+  background-color: transparent;
+  outline: none;
+  color: var(--text-gray);
+}
+
+.input:focus {
+  border: 2px solid var(--blue-color);
+  color: var(--text-gray);
+}
+
+.tip {
+  margin-top: 20px;
+  font-size: 22px;
 }

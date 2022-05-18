@@ -1,13 +1,15 @@
 :root {
   --bg-color: #0d1117;
   --white-color: rgba(255, 255, 255);
-  --blue-color: #0075db;
+  --blue-color: #58a6ff;
   --red-color: #ff444c;
   --gray-color: #737373;
   --secondary-bg-color: #17171a;
   --border-color: #565664;
   --selected-color: #000344;
   --color-header-bg: #161b22;
+  --text-gray: #c9d1d9;
+  --color-fg-muted: #8b949e;
 }
 
 * {

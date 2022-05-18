@@ -21,7 +21,7 @@ const navItems = [
 ];
 
 export default memo(function BottomNav() {
-  const navItemClass = styles.navItem;
+  const navItemClass = clsx([styles.navItem, "blue-text"]);
 
   const renderIcon = () => (
     <FontAwesomeIcon icon={faGithub} className={styles.icon} />

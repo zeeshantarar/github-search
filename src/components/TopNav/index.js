@@ -1,9 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import styles from "./index.module.css";
 import DropDown from "../DropDown";
 import clsx from "clsx";
-import { memo, useMemo } from "react";
+import { memo, useContext, useMemo } from "react";
+import { SearchContext } from "../../contexts/SearchContext";
+import searchActions from "../../actions/searchActions";
 
 const leftNavItems = [
   {
@@ -25,9 +28,12 @@ const leftNavItems = [
 
 const rightNavItems = [{ text: "Sign in" }, { text: "Sign up" }];
 
-export default memo(function TopNav() {
+const TopNav = memo(() => {
   const containerClass = clsx([styles.container, "row"]);
   const navItemClass = styles.navItem;
+
+  const [search, dispatch] = useContext(SearchContext);
+  const { query, results } = search;
 
   const renderIcon = () => (
     <FontAwesomeIcon icon={faGithub} className={styles.icon} />
@@ -51,8 +57,25 @@ export default memo(function TopNav() {
     [rightNavItems]
   );
 
+  const handleInputChange = (event) =>
+    dispatch({ type: searchActions.UPDATE_QUERY, payload: event.target.value });
+
+  const renderSearchBar = () =>
+    query && results ? (
+      <div className={styles.inputContainer}>
+        <input
+          className={styles.input}
+          value={query}
+          onChange={handleInputChange}
+        />
+        <FontAwesomeIcon icon={faPenToSquare} className={styles.inputIcon} />
+        {/* <FontAwesomeIcon icon="fa-solid fa-pen-to-square" /> */}
+      </div>
+    ) : null;
+
   const renderRightNavItems = () => (
     <div className={clsx(["row", styles.rightNavItemsContainer])}>
+      {renderSearchBar()}
       {rightNavItems.map((navItem) => (
         <p key={navItem.text} className={navItemClass}>
           {navItem.text}
@@ -69,3 +92,5 @@ export default memo(function TopNav() {
     </div>
   );
 });
+
+export default TopNav;
