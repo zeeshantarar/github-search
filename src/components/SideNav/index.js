@@ -21,7 +21,7 @@ export default memo(function SideNav() {
 
   const { results } = search;
 
-  if (!results.items.length) return;
+  if (!results?.items.length) return;
 
   const navItemClass = (item) =>
     clsx([

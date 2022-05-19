@@ -83,7 +83,7 @@ const TopNav = memo(() => {
   };
 
   const renderSearchBar = () =>
-    results.items.length ? (
+    results?.items.length ? (
       <form className={styles.inputContainer} onSubmit={handleSearchSubmit}>
         <input
           className={styles.input}
