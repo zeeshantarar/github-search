@@ -38,7 +38,7 @@ const TopNav = memo(() => {
   const [search, dispatch] = useContext(SearchContext);
   const { query, results, page } = search;
 
-  const [setQueryParams] = useSearchParams();
+  const [, setQueryParams] = useSearchParams();
 
   const renderIcon = () => (
     <FontAwesomeIcon icon={faGithub} className={styles.icon} />
