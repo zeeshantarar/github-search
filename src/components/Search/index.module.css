@@ -1,23 +1,23 @@
 .container {
   border-radius: 26px;
   padding: 10px;
-  margin: 120px 320px 100px 320px;
+  margin: 80px 240px 100px 240px;
 }
 
 .icon {
   color: var(--text-gray);
-  font-size: 32px;
+  font-size: 26px;
   margin-right: 10px;
 }
 
 .title {
-  font-size: 32px;
+  font-size: 26px;
   color: var(--text-gray);
 }
 
 .input {
   flex-grow: 1;
-  font-size: 22px;
+  font-size: 18px;
   padding: 10px 15px;
   margin: 0 10px 0 0;
   border-radius: 10px;
@@ -34,10 +34,12 @@
 
 .tip {
   margin-top: 20px;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .subHeaderContainer {
   margin-left: 210px;
+  padding-bottom: 20px;
   margin-bottom: 20px;
+  border-bottom: 1px solid #242526;
 }

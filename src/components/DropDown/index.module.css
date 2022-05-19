@@ -1,27 +1,29 @@
 .container {
-  padding-right: 1.5rem;
+  margin-right: 16px;
   position: relative;
   display: inline-block;
   background-color: var(--color-header-bg);
+  z-index: 1;
 }
 
 .icon {
   color: var(--gray-color);
-  font-size: 20px;
+  font-size: 14px;
 }
 
 .itemsContainer {
-  padding: 3rem 0;
+  display: none;
+  padding: 10px 0;
   position: fixed;
-  min-width: 25rem;
   list-style: none;
   background-color: var(--color-header-bg);
+  border-radius: 6px;
 }
 
 .item {
   display: flex;
-  font-size: 18px;
-  padding: 15px 40px;
+  font-size: 16px;
+  padding: 12px 64px 12px 24px;
   cursor: pointer;
 }
 
@@ -31,7 +33,7 @@
 
 .titleContainer {
   text-decoration: none;
-  font-size: 24px;
+  font-size: 18px;
   -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
@@ -47,4 +49,8 @@
   -o-transition: all 0.8s ease;
   -ms-transition: all 0.8s ease;
   transition: all 0.8s ease;
+}
+
+.titleContainer:hover + .itemsContainer {
+  display: block;
 }

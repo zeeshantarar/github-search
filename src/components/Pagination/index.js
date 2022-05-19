@@ -18,7 +18,7 @@ const Pagination = memo(({ total, page, onClick }) => {
 
   const renderPrevBtn = () => (
     <Button
-      className={btnClass()}
+      className={clsx([btnClass(), { [styles.bgBlue]: page !== 1 }])}
       disabled={page === 1}
       text="Previous"
       onClick={() => onClick(page - 1)}
@@ -44,8 +44,8 @@ const Pagination = memo(({ total, page, onClick }) => {
     const midFive =
       page >= 5
         ? [
-            ...numbers.slice(page - 3, page + 1),
-            ...numbers.slice(page + 1, page + 2),
+            ...numbers.slice(page - 2, page + 1),
+            ...numbers.slice(page + 1, page + 1),
           ]
         : [];
 
@@ -68,14 +68,18 @@ const Pagination = memo(({ total, page, onClick }) => {
   const renderNextBtn = () => (
     <Button
       disabled={page === total}
-      className={btnClass()}
+      className={clsx([
+        "mlAuto",
+        btnClass(),
+        { [styles.bgBlue]: page !== total },
+      ])}
       text="Next"
       onClick={() => onClick(page + 1)}
     />
   );
 
   return (
-    <div className={clsx(["row", styles.container])}>
+    <div className={clsx([styles.container])}>
       {renderPrevBtn()}
       {renderBtns()}
       {renderNextBtn()}

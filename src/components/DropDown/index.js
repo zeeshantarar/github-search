@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
@@ -7,26 +7,18 @@ import styles from "./index.module.css";
 import clsx from "clsx";
 
 const DropDown = memo(({ text, items }) => {
-  const [showList, setShowList] = useState(false);
-
   const titleContainerClasses = clsx([styles.titleContainer, "row"]);
 
   const renderTitle = () => (
-    <div
-      className={titleContainerClasses}
-      onMouseOver={() => setShowList(true)}
-    >
+    <div className={titleContainerClasses}>
       <p className={styles.title}>{text}</p>
       <FontAwesomeIcon icon={faChevronDown} className={styles.icon} />
     </div>
   );
 
   const renderItems = () => {
-    return showList ? (
-      <div
-        className={styles.itemsContainer}
-        onMouseLeave={() => setShowList(false)}
-      >
+    return true ? (
+      <div className={styles.itemsContainer}>
         {items.map((item) => (
           <p key={item} className={styles.item}>
             {item}

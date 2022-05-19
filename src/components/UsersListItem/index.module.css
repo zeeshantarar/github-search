@@ -1,6 +1,5 @@
 .container {
   display: flex;
-  align-items: center;
   justify-content: flex-start;
   padding: 10px 15px;
   margin-left: 200px;
@@ -18,7 +17,7 @@
   text-decoration: none;
 }
 
-.name {
+.darkGray {
   color: var(--color-fg-muted);
 }
 
@@ -29,5 +28,5 @@
 .bioContainer {
   flex: 1;
   flex-wrap: 1;
-  margin: 10px 0 5px 0;
+  margin: 10px 10px 5px 0;
 }

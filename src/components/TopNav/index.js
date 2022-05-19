@@ -9,6 +9,7 @@ import { SearchContext } from "../../contexts/SearchContext";
 import searchActions from "../../actions/searchActions";
 import { useSearchParams } from "react-router-dom";
 import * as searchApi from "../../api/search";
+import { PER_PAGE } from "../../constants/search";
 
 const leftNavItems = [
   {
@@ -35,9 +36,9 @@ const TopNav = memo(() => {
   const navItemClass = styles.navItem;
 
   const [search, dispatch] = useContext(SearchContext);
-  const { query, results, page, total } = search;
+  const { query, results, page } = search;
 
-  const [queryParams, setQueryParams] = useSearchParams();
+  const [setQueryParams] = useSearchParams();
 
   const renderIcon = () => (
     <FontAwesomeIcon icon={faGithub} className={styles.icon} />
@@ -58,7 +59,7 @@ const TopNav = memo(() => {
           </p>
         )
       ),
-    [rightNavItems]
+    [navItemClass]
   );
 
   const handleInputChange = (event) =>
@@ -68,19 +69,21 @@ const TopNav = memo(() => {
     event.preventDefault();
 
     if (query) {
-      setQueryParams({ q: query, per_page: 10, page: page });
+      setQueryParams({ q: query, per_page: PER_PAGE, page: 1 });
       searchApi.getAll(query, page).then((res) => {
         dispatch({
           type: searchActions.UPDATE_TOTAL,
           payload: res.total_count,
         });
         dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
+
+        dispatch({ type: searchActions.UPDATE_PAGE, payload: 1 });
       });
     }
   };
 
   const renderSearchBar = () =>
-    query && results ? (
+    results ? (
       <form className={styles.inputContainer} onSubmit={handleSearchSubmit}>
         <input
           className={styles.input}

@@ -3,22 +3,20 @@ import styles from "./index.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Button from "../Button";
-import { useContext, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import * as searchApi from "../../api/search";
 import { SearchContext } from "../../contexts/SearchContext";
 import searchActions from "../../actions/searchActions";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import UsersListItem from "../UsersListItem";
 import Pagination from "../Pagination";
+import { PER_PAGE } from "../../constants/search";
 
 const Search = () => {
   const containerClassName = clsx([styles.container]);
   const [search, dispatch] = useContext(SearchContext);
-  const [queryParams, setQueryParams] = useSearchParams();
-
-  useEffect(() => {
-    setQueryParams();
-  }, []);
+  const [, setQueryParams] = useSearchParams();
+  const location = useLocation();
 
   const { query, results, page, total } = search;
 
@@ -30,27 +28,47 @@ const Search = () => {
     event.preventDefault();
 
     if (query) {
-      setQueryParams({ q: query, per_page: 10, page: page });
+      setQueryParams({ q: query, per_page: PER_PAGE, page: page });
       searchApi.getAll(query, page).then((res) => {
         dispatch({
           type: searchActions.UPDATE_TOTAL,
           payload: res.total_count,
         });
+
         dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
       });
     }
   };
 
   useEffect(() => {
-    setQueryParams({ ...queryParams, page: page });
+    const routeQuery = new URLSearchParams(location.search).get("q");
+    const routePage = parseInt(
+      new URLSearchParams(location.search).get("page")
+    );
 
+    if (routeQuery && routePage) {
+      dispatch({ type: searchActions.UPDATE_QUERY, payload: routeQuery });
+      dispatch({ type: searchActions.UPDATE_PAGE, payload: routePage });
+
+      searchApi.getAll(routeQuery, routePage).then((res) => {
+        dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
+
+        dispatch({
+          type: searchActions.UPDATE_TOTAL,
+          payload: res.total_count,
+        });
+      });
+    }
+  }, [dispatch, location.search]);
+
+  useEffect(() => {
     searchApi.getAll(query, page).then((res) => {
       dispatch({ type: searchActions.UPDATE_RESULTS, payload: res });
     });
-  }, [page]);
+  }, [page, dispatch]);
 
   const renderTitle = () =>
-    query && results ? null : (
+    results ? null : (
       <div className="row mb30">
         <FontAwesomeIcon icon={faSearch} className={styles.icon} />
         <p className={styles.title}>Search more than 553M users</p>
@@ -58,7 +76,7 @@ const Search = () => {
     );
 
   const renderSearchBar = () =>
-    query && results ? null : (
+    results ? null : (
       <form className="row" onSubmit={handleSearchSubmit}>
         <input
           className={styles.input}
@@ -73,7 +91,7 @@ const Search = () => {
   const renderBlueText = (text) => <span className="blue-text">{text}</span>;
 
   const renderProTip = () =>
-    query && results ? null : (
+    results ? null : (
       <p className={styles.tip}>
         <strong>ProTip! </strong>
         For an {renderBlueText("advanced search")}, use some of our{" "}
@@ -84,7 +102,7 @@ const Search = () => {
   const renderSubHeader = () =>
     total ? (
       <div className={styles.subHeaderContainer}>
-        <h1>{total} users</h1>
+        <h2>{total} users</h2>
       </div>
     ) : null;
 
@@ -99,17 +117,23 @@ const Search = () => {
     );
   }, [results]);
 
+  const handlePaginationClick = useCallback(
+    (p) => {
+      dispatch({ type: searchActions.UPDATE_PAGE, payload: p });
+      setQueryParams({ q: query, per_page: PER_PAGE, page: p });
+    },
+    [query, dispatch, setQueryParams]
+  );
+
   const renderPagination = useMemo(
     () => (
       <Pagination
-        total={Math.min(100, Math.ceil(total / 10))}
+        total={Math.min(100, Math.ceil(total / PER_PAGE))}
         page={page}
-        onClick={(p) =>
-          dispatch({ type: searchActions.UPDATE_PAGE, payload: p })
-        }
+        onClick={handlePaginationClick}
       />
     ),
-    [total, page]
+    [total, page, handlePaginationClick]
   );
 
   return (

@@ -14,32 +14,42 @@ const UsersListItem = memo(({ name }) => {
     });
   }, [name]);
 
-  if (!userInfo?.name) return;
-
   const renderProfilePic = () => (
-    <img className={styles.profilePic} src={userInfo?.avatar_url} />
+    <img
+      className={styles.profilePic}
+      src={userInfo?.avatar_url}
+      alt="avatar"
+    />
   );
 
   const renderNames = () => (
     <a className={styles.githubLink} href={userInfo?.html_url}>
       <div className="row">
-        <h2 className="blue-text">{userInfo?.name} &nbsp;</h2>
-        <h2 className={clsx(["blue-text", styles.name])}>{userInfo?.login}</h2>
+        {userInfo?.name ? (
+          <h3 className="blue-text">{userInfo?.name} &nbsp;</h3>
+        ) : null}
+        <h3 className={clsx(["blue-text", styles.darkGray])}>
+          {userInfo?.login || <i>username</i>}
+        </h3>
       </div>
     </a>
   );
 
   const renderBio = () => (
     <div className={styles.bioContainer}>
-      <p>{userInfo?.bio}</p>
+      <p>{userInfo?.bio || <i>description</i>}</p>
     </div>
   );
 
   const renderFollows = () => (
     <div className="row my10">
-      <p>Followers: {userInfo?.followers}&nbsp;</p>
-      <p>Following: {userInfo?.following}</p>
+      <p>Followers: {userInfo?.followers || <i>followers_count</i>}&nbsp;</p>
+      <p>Following: {userInfo?.following || <i>following_count</i>}</p>
     </div>
+  );
+
+  const renderLocation = () => (
+    <p className={styles.darkGray}>{userInfo?.location}</p>
   );
 
   const renderUserInfo = () => {
@@ -48,7 +58,7 @@ const UsersListItem = memo(({ name }) => {
         {renderNames()}
         {renderBio()}
         {renderFollows()}
-        <p>{userInfo?.location}</p>
+        {renderLocation()}
       </div>
     );
   };
