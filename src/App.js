@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import BottomNav from "./components/BottomNav";
