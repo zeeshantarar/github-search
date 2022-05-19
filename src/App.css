@@ -57,6 +57,11 @@ strong {
   display: flex;
   flex-direction: column;
 }
+
+.alignStart {
+  align-items: flex-start;
+}
+
 .py5 {
   padding-top: 5px;
   padding-bottom: 5px;

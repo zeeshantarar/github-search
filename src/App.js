@@ -22,8 +22,10 @@ const App = () => {
   return (
     <div>
       {renderTopNav()}
-      {renderSidNav()}
-      {renderRoutes()}
+      <div className="row alignStart">
+        {renderSidNav()}
+        {renderRoutes()}
+      </div>
       {renderBottomNav()}
     </div>
   );

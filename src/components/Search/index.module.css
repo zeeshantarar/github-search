@@ -1,7 +1,15 @@
 .container {
   border-radius: 26px;
   padding: 10px;
-  margin: 80px 240px 100px 240px;
+  flex-grow: 0.7;
+}
+
+.ml200 {
+  margin-left: 200px;
+}
+
+.mt100 {
+  margin-top: 100px;
 }
 
 .icon {
@@ -38,7 +46,6 @@
 }
 
 .subHeaderContainer {
-  margin-left: 210px;
   padding-bottom: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid #242526;

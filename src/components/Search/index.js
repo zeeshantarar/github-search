@@ -69,7 +69,7 @@ const Search = () => {
 
   const renderTitle = () =>
     results?.items.length ? null : (
-      <div className="row mb30">
+      <div className={clsx(["row", "mb30", styles.ml200, styles.mt100])}>
         <FontAwesomeIcon icon={faSearch} className={styles.icon} />
         <p className={styles.title}>Search more than 553M users</p>
       </div>
@@ -77,7 +77,10 @@ const Search = () => {
 
   const renderSearchBar = () =>
     results?.items.length ? null : (
-      <form className="row" onSubmit={handleSearchSubmit}>
+      <form
+        className={clsx(["row", "mb30", styles.ml200])}
+        onSubmit={handleSearchSubmit}
+      >
         <input
           className={styles.input}
           placeholder="Search GitHub"
@@ -92,7 +95,7 @@ const Search = () => {
 
   const renderProTip = () =>
     results?.items.length ? null : (
-      <p className={styles.tip}>
+      <p className={clsx(["mb30", styles.tip, styles.ml200])}>
         <strong>ProTip! </strong>
         For an {renderBlueText("advanced search")}, use some of our{" "}
         {renderBlueText("prefixes.")}
