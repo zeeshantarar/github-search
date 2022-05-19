@@ -1,7 +1,5 @@
 .container {
-  padding: 20px 150px;
-  overflow: hidden;
-  position: fixed;
+  padding: 20px 150px 40px 150px;
   width: 100%;
 }
 

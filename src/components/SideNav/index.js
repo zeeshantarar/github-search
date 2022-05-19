@@ -1,6 +1,7 @@
 import styles from "./index.module.css";
-import { memo } from "react";
+import { memo, useContext } from "react";
 import clsx from "clsx";
+import { SearchContext } from "../../contexts/SearchContext";
 
 const navItems = [
   { text: "Repositories", count: "21K" },
@@ -16,6 +17,12 @@ const navItems = [
 ];
 
 export default memo(function SideNav() {
+  const [search] = useContext(SearchContext);
+
+  const { results } = search;
+
+  if (!results.items.length) return;
+
   const navItemClass = (item) =>
     clsx([
       styles.navItem,

@@ -68,7 +68,7 @@ const Search = () => {
   }, [page, dispatch]);
 
   const renderTitle = () =>
-    results ? null : (
+    results.items.length ? null : (
       <div className="row mb30">
         <FontAwesomeIcon icon={faSearch} className={styles.icon} />
         <p className={styles.title}>Search more than 553M users</p>
@@ -76,7 +76,7 @@ const Search = () => {
     );
 
   const renderSearchBar = () =>
-    results ? null : (
+    results.items.length ? null : (
       <form className="row" onSubmit={handleSearchSubmit}>
         <input
           className={styles.input}
@@ -91,7 +91,7 @@ const Search = () => {
   const renderBlueText = (text) => <span className="blue-text">{text}</span>;
 
   const renderProTip = () =>
-    results ? null : (
+    results.items.length ? null : (
       <p className={styles.tip}>
         <strong>ProTip! </strong>
         For an {renderBlueText("advanced search")}, use some of our{" "}
